@@ -1,12 +1,66 @@
 import React, { Component } from "react";
 
-import { View, StyleSheet } from "react-native";
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  AsyncStorage
+} from "react-native";
 
-// import { Container } from './styles';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class Login extends Component {
+  state = {
+    username: ""
+  };
+
+  handleInputChange = username => {
+    this.setState({ username });
+  };
+
+  async componentDidMount() {
+    const username = await AsyncStorage.getItem("@Username:username");
+
+    if (username) {
+      this.props.navigation.navigate("App");
+    }
+  }
+
+  handleLogin = async () => {
+    const { username } = this.state;
+
+    if (!username.length) return;
+
+    await AsyncStorage.setItem("@Username:username", username);
+
+    this.props.navigation.navigate("App");
+  };
+
   render() {
-    return <View style={styles.container} />;
+    return (
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.content}>
+          <View>
+            <Icon name="twitter" size={64} color="#4BB0EE" />
+          </View>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Name of user"
+            onChangeText={this.handleInputChange}
+            onSubmitEditing={this.handleLogin}
+            returnKeyType="send"
+          />
+
+          <TouchableOpacity onPress={this.handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Entrar</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    );
   }
 }
 
