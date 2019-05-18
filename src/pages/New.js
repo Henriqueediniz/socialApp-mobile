@@ -48,7 +48,7 @@ export default class New extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={this.handleTweet}>
-            <Text style={styles.buttonText}>Tweeting</Text>
+            <Text style={styles.buttonText}>Tweet</Text>
           </TouchableOpacity>
         </View>
 
