@@ -6,10 +6,10 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
-  AsyncStorage
+  TouchableOpacity
 } from "react-native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class Login extends Component {

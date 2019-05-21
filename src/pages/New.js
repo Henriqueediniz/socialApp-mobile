@@ -7,9 +7,10 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  AsyncStorage,
   StyleSheet
 } from "react-native";
+
+import AsyncStorage from "@react-native-community/async-storage";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 
@@ -28,7 +29,7 @@ export default class New extends Component {
 
   handleTweet = async () => {
     const content = this.state.newTweet;
-    const author = await AsyncStorage.getItem("@OmniStack:username");
+    const author = await AsyncStorage.getItem("@Username:username");
 
     await api.post("tweets", { author, content });
 
