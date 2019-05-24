@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import socket from "socket.io-client";
+
 import api from "../services/api";
 
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
@@ -28,10 +30,32 @@ export default class Timeline extends Component {
   };
 
   async componentDidMount() {
+    this.subscribeToEvents();
+
     const response = await api.get("tweets");
 
     this.setState({ tweets: response.data });
   }
+
+  subscribeToEvents = () => {
+    const io = socket("http://localhost:3000");
+
+    io.on("tweet", data => {
+      this.setState({ tweets: [data, ...this.state.tweets] });
+    });
+    io.on("like", data => {
+      this.setState({
+        tweets: this.state.tweets.map(tweet =>
+          tweet._id === data._id ? data : tweet
+        )
+      });
+    });
+
+    io.on("delete", data => {
+      alert("tweet deleted");
+      this.setState({ tweets: data, ...api.get("tweets").data });
+    });
+  };
 
   render() {
     return (
