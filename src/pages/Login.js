@@ -49,7 +49,7 @@ export default class Login extends Component {
 
           <TextInput
             style={styles.input}
-            placeholder="Name of user"
+            placeholder="User name"
             onChangeText={this.handleInputChange}
             onSubmitEditing={this.handleLogin}
             returnKeyType="send"
